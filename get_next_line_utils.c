@@ -6,7 +6,7 @@
 /*   By: rpinheir <rpinheir@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 11:27:32 by rpinheir          #+#    #+#             */
-/*   Updated: 2025/11/03 13:12:01 by rpinheir         ###   ########.fr       */
+/*   Updated: 2025/11/04 14:31:46 by rpinheir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,54 +24,54 @@ int	ft_strlen(const char *s)
 
 char	*ft_strchr(const char *s, int c)
 {
+	int	i;
+
+	i = 0;
 	while (*s)
 	{
 		if (*s == (char)c)
-			return ((char *)s);
-		s++;
+			return (i);
+		i++;
 	}
 	if ((char)c == '\0')
-		return ((char *)s);
+		return ((void *)0);
 	return ((void *)0);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+int	ft_strlcpy(char *dst, const char *src, int size)
 {
-	char	*ptr;
-	int		len1;
-	int		len2;
-	int		i;
-	int		j;
+	int	i;
+	int	len;
 
-	if (!s1 || !s2)
-		return ((void *)0);
-	len1 = ft_strlen(s1);
-	len2 = ft_strlen(s2);
-	ptr = malloc(len1 + len2 + 1);
-	if (!ptr)
-		return ((void *)0);
 	i = 0;
-	while (i < len1)
+	len = ft_strlen(src);
+	if (size == 0)
+		return (len);
+	while (i < (size - 1) && src[i] != '\0')
 	{
-		ptr[i] = s1[i];
+		dst[i] = src[i];
 		i++;
 	}
-	j = 0;
-	while (j < len2)
-		ptr[i++] = s2[j++];
-	ptr[i] = '\0';
-	return (ptr);
+	dst[i] = '\0';
+	return (len);
 }
 
-char	*ft_strdup(const char *s)
+int	ft_strlcat(char *dst, const char *src, int size)
 {
-	char	*ptr;
-	int		len;
+	int	dst_len;
+	int	src_len;
+	int	i;
 
-	len = ft_strlen(s) + 1;
-	ptr = malloc(len);
-	if (!ptr)
-		return ((void *)0);
-	ft_strlcpy(ptr, s, len);
-	return (ptr);
+	dst_len = ft_strlen(dst);
+	src_len = ft_strlen(src);
+	if (size <= dst_len)
+		return (size + src_len);
+	i = 0;
+	while (src[i] && (dst_len + i) < (size - 1))
+	{
+		dst[dst_len + i] = src[i];
+		i++;
+	}
+	dst[dst_len + i] = '\0';
+	return (dst_len + src_len);
 }
