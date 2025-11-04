@@ -6,7 +6,7 @@
 /*   By: rpinheir <rpinheir@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 11:27:32 by rpinheir          #+#    #+#             */
-/*   Updated: 2025/11/04 14:31:46 by rpinheir         ###   ########.fr       */
+/*   Updated: 2025/11/04 15:47:05 by rpinheir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,20 @@ int	ft_strlen(const char *s)
 	return (i);
 }
 
-char	*ft_strchr(const char *s, int c)
+int	ft_strchr(const char *s, int c)
 {
 	int	i;
 
 	i = 0;
-	while (*s)
+	while (s[i])
 	{
 		if (*s == (char)c)
 			return (i);
 		i++;
 	}
 	if ((char)c == '\0')
-		return ((void *)0);
-	return ((void *)0);
+		return (0);
+	return (0);
 }
 
 int	ft_strlcpy(char *dst, const char *src, int size)
