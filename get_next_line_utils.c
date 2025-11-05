@@ -29,12 +29,17 @@ int	ft_strchr(const char *s, int c)
 	i = 0;
 	while (s[i])
 	{
+		// BUG CRITIQUE: Je compare *s (toujours le premier char) au lieu de s[i]
+		// Changer *s en s[i]
 		if (*s == (char)c)
 			return (i);
 		i++;
 	}
+	// TODO: Si c == '\0', je retourne 0 (debut), mais je devrais retourner i (la position du '\0')
 	if ((char)c == '\0')
 		return (0);
+	// TODO: Si le caractere n'est pas trouve, je dois retourner une valeur qui indique "pas trouve"
+	// Peut-etre retourner -1 ou 0 selon ma logique
 	return (0);
 }
 
