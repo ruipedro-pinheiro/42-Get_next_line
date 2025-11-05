@@ -6,7 +6,7 @@
 /*   By: rpinheir <rpinheir@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 11:43:36 by rpinheir          #+#    #+#             */
-/*   Updated: 2025/11/05 11:27:00 by rpinheir         ###   ########.fr       */
+/*   Updated: 2025/11/05 12:24:54 by rpinheir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*get_next_line(int fd)
 	size = ft_strlen(stash);
 	if (size == BUFFER_SIZE)
 	{
-		stash = malloc(malloc(sizeof(char) * BUFFER_SIZE));
+		stash = malloc(sizeof(char) * BUFFER_SIZE);
 	}
 	read_to_stash(fd, stash);
 	len = ft_strchr(stash, '\n');
