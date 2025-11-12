@@ -6,26 +6,26 @@
 /*   By: rpinheir <rpinheir@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 11:43:36 by rpinheir          #+#    #+#             */
-/*   Updated: 2025/11/12 13:36:47 by rpinheir         ###   ########.fr       */
+/*   Updated: 2025/11/12 13:57:38 by rpinheir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	read_to_stash(int fd, char *stash)
+void	read_to_stash(int fd, char **stash)
 {
 	char	buffer[BUFFER_SIZE];
 	int		bytes_readed;
 	char	*temp_stash;
 
-	while (ft_strchr(stash, '\n'))
+	while (ft_strchr(*stash, '\n') == 0)
 	{
 		bytes_readed = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_readed <= 0)
 			break ;
-		temp_stash = ft_strjoin(stash, buffer);
-		free(stash);
-		stash = temp_stash;
+		temp_stash = ft_strjoin(*stash, buffer);
+		free(*stash);
+		*stash = temp_stash;
 	}
 }
 
@@ -38,7 +38,7 @@ void	clean_stash(char *stash)
 	i = 0;
 	while (i < len)
 	{
-		stash[i] = stash[len];
+		stash[i] = stash[len + i];
 		i++;
 	}
 }
@@ -58,7 +58,7 @@ char	*get_next_line(int fd)
 		if (!stash)
 			return (NULL);
 	}
-	read_to_stash(fd, stash);
+	read_to_stash(fd, &stash);
 	len = ft_strchr(stash, '\n');
 	line = malloc(sizeof(char) * len + 2);
 	if (line == NULL)
@@ -69,11 +69,14 @@ char	*get_next_line(int fd)
 		free(stash);
 	return (line);
 }
-/**
+
 int	main(void)
 {
-	int	fd;
+	int		fd;
+	char	*output;
 
-	fd = open("text.txt", O_RDONLY);
+	fd = open("hello.txt", O_RDONLY);
+	output = get_next_line(fd);
+	while (get_next_line(fd) != NULL)
+		printf("%s", output);
 }
-**/
