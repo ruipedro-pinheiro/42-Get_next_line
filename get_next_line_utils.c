@@ -6,7 +6,7 @@
 /*   By: rpinheir <rpinheir@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 11:27:32 by rpinheir          #+#    #+#             */
-/*   Updated: 2025/11/12 15:22:31 by rpinheir         ###   ########.fr       */
+/*   Updated: 2025/11/12 16:55:28 by rpinheir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,11 @@ char	*ft_strdup(const char *s)
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)
+
 {
-	char	*ptr;
-	int		len1;
-	int		len2;
+	char *ptr;
+	int len1;
+	int len2;
 
 	if (s1 == NULL)
 		return (ft_strdup(s2));
