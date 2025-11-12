@@ -6,7 +6,7 @@
 /*   By: rpinheir <rpinheir@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 11:43:36 by rpinheir          #+#    #+#             */
-/*   Updated: 2025/11/12 12:11:35 by rpinheir         ###   ########.fr       */
+/*   Updated: 2025/11/12 13:30:25 by rpinheir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,17 @@
 void	read_to_stash(int fd, char *stash)
 {
 	char	buffer[BUFFER_SIZE];
-	int		len;
+	int		bytes_readed;
+	char	*temp_stash;
 
-	len = ft_strlen(stash);
-	while (ft_strchr(stash, '\n') || read(fd, buffer, 0) > 0)
+	while (ft_strchr(stash, '\n'))
 	{
-		read(fd, buffer, BUFFER_SIZE);
-		ft_strlcpy(stash, buffer, len);
+		bytes_readed = read(fd, buffer, BUFFER_SIZE);
+		if (bytes_readed <= 0)
+			break ;
+		temp_stash = ft_strjoin(stash, buffer);
+		free(stash);
+		stash = temp_stash;
 	}
 }
 
@@ -34,29 +38,7 @@ void	clean_stash(char *stash)
 	i = 0;
 	while (i != len)
 	{
-		stash[i] = '\0';
-	}
-	i = 0;
-	while (stash[i])
-	{
-		stash[i + len] = stash[i];
-		i++;
-	}
-}
-
-void	stash_realloc(char *stash)
-{
-	char	*temp;
-	int		len;
-
-	temp = 0;
-	len = ft_strlen(stash);
-	if (BUFFER_SIZE > BUFFER_SIZE + len)
-	{
-		ft_strlcpy(temp, stash, len);
-		free(stash);
-		stash = malloc(sizeof(char) * BUFFER_SIZE + len + 1);
-		ft_strlcpy(stash, temp, len);
+		stash[i] = stash[len + 1];
 	}
 }
 
@@ -77,7 +59,6 @@ char	*get_next_line(int fd)
 	}
 	read_to_stash(fd, stash);
 	len = ft_strchr(stash, '\n');
-	stash_realloc(stash);
 	line = malloc(sizeof(char) * len + 2);
 	if (line == NULL)
 		return (NULL);
