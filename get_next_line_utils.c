@@ -6,7 +6,7 @@
 /*   By: rpinheir <rpinheir@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 11:27:32 by rpinheir          #+#    #+#             */
-/*   Updated: 2025/11/12 13:33:44 by rpinheir         ###   ########.fr       */
+/*   Updated: 2025/11/12 13:36:46 by rpinheir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_strlen(const char *s)
 	}
 	return (i);
 }
-// "Hello\n"
+
 int	ft_strchr(const char *s, int c)
 {
 	int	i;
