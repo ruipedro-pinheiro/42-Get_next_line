@@ -6,9 +6,11 @@
 /*   By: rpinheir <rpinheir@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 11:27:32 by rpinheir          #+#    #+#             */
-/*   Updated: 2025/11/04 15:47:05 by rpinheir         ###   ########.fr       */
+/*   Updated: 2025/11/12 11:21:41 by rpinheir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "get_next_line.h"
 
 int	ft_strlen(const char *s)
 {
@@ -29,18 +31,13 @@ int	ft_strchr(const char *s, int c)
 	i = 0;
 	while (s[i])
 	{
-		// BUG CRITIQUE: Je compare *s (toujours le premier char) au lieu de s[i]
-		// Changer *s en s[i]
-		if (*s == (char)c)
+		if (s[i] == (char)c)
 			return (i);
 		i++;
 	}
-	// TODO: Si c == '\0', je retourne 0 (debut), mais je devrais retourner i (la position du '\0')
 	if ((char)c == '\0')
-		return (0);
-	// TODO: Si le caractere n'est pas trouve, je dois retourner une valeur qui indique "pas trouve"
-	// Peut-etre retourner -1 ou 0 selon ma logique
-	return (0);
+		return (i);
+	return (-1);
 }
 
 int	ft_strlcpy(char *dst, const char *src, int size)
@@ -61,22 +58,30 @@ int	ft_strlcpy(char *dst, const char *src, int size)
 	return (len);
 }
 
-int	ft_strlcat(char *dst, const char *src, int size)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	int	dst_len;
-	int	src_len;
-	int	i;
+	char	*ptr;
+	int		len1;
+	int		len2;
+	int		i;
+	int		j;
 
-	dst_len = ft_strlen(dst);
-	src_len = ft_strlen(src);
-	if (size <= dst_len)
-		return (size + src_len);
+	if (!s1 || !s2)
+		return ((void *)0);
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	ptr = malloc(len1 + len2 + 1);
+	if (!ptr)
+		return ((void *)0);
 	i = 0;
-	while (src[i] && (dst_len + i) < (size - 1))
+	while (i < len1)
 	{
-		dst[dst_len + i] = src[i];
+		ptr[i] = s1[i];
 		i++;
 	}
-	dst[dst_len + i] = '\0';
-	return (dst_len + src_len);
+	j = 0;
+	while (j < len2)
+		ptr[i++] = s2[j++];
+	ptr[i] = '\0';
+	return (ptr);
 }

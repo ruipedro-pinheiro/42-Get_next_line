@@ -6,27 +6,22 @@
 /*   By: rpinheir <rpinheir@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 11:43:36 by rpinheir          #+#    #+#             */
-/*   Updated: 2025/11/05 12:57:44 by rpinheir         ###   ########.fr       */
+/*   Updated: 2025/11/12 11:26:00 by rpinheir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <fcntl.h>
-#include <stdio.h>
-#include <stdlib.h>
 
 void	read_to_stash(int fd, char *stash)
 {
-	int		i;
 	char	buffer[BUFFER_SIZE];
 	int		len;
 
 	len = ft_strlen(stash);
-	i = 0;
 	while (ft_strchr(stash, '\n') || read(fd, buffer, 0) > 0)
 	{
 		read(fd, buffer, BUFFER_SIZE);
-		ft_strlcat(stash, buffer, len);
+		ft_strlcpy(stash, buffer, len);
 	}
 }
 
@@ -49,15 +44,29 @@ void	clean_stash(char *stash)
 	}
 }
 
+void	stash_realloc(char *stash)
+{
+	char	temp;
+	int		len;
+
+	len = ft_strlen(stash);
+	if (BUFFER_SIZE > BUFFER_SIZE + len)
+	{
+		ft_strlcpy(&temp, stash, len);
+		free(stash);
+		stash = malloc(sizeof(char) * BUFFER_SIZE + len + 1);
+		ft_strlcpy(stash, &temp, len);
+	}
+}
+
 char	*get_next_line(int fd)
 {
 	static char	*stash;
 	char		*line;
 	char		buffer[BUFFER_SIZE];
 	int			len;
-	int			size;
 
-	if (BUFFER_SIZE <= 0 | read(fd, buffer, 0) == -1)
+	if (BUFFER_SIZE <= 0 || read(fd, buffer, 0) == -1)
 		return (NULL);
 	if (stash == NULL)
 	{
@@ -65,13 +74,9 @@ char	*get_next_line(int fd)
 		if (!stash)
 			return (NULL);
 	}
-	size = ft_strlen(stash);
-	if (size == BUFFER_SIZE)
-	{
-		stash = malloc(sizeof(char) * BUFFER_SIZE);
-	}
 	read_to_stash(fd, stash);
 	len = ft_strchr(stash, '\n');
+	stash_realloc(stash);
 	line = malloc(sizeof(char) * len + 2);
 	if (line == NULL)
 		return (NULL);
@@ -81,10 +86,11 @@ char	*get_next_line(int fd)
 		free(stash);
 	return (line);
 }
-
+/**
 int	main(void)
 {
 	int	fd;
 
 	fd = open("text.txt", O_RDONLY);
 }
+**/
