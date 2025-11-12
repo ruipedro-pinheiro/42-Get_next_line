@@ -6,7 +6,7 @@
 /*   By: rpinheir <rpinheir@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 11:43:36 by rpinheir          #+#    #+#             */
-/*   Updated: 2025/11/12 13:57:38 by rpinheir         ###   ########.fr       */
+/*   Updated: 2025/11/12 14:46:58 by rpinheir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,27 @@
 
 void	read_to_stash(int fd, char **stash)
 {
-	char	buffer[BUFFER_SIZE];
+	char	*buffer;
 	int		bytes_readed;
 	char	*temp_stash;
 
-	while (ft_strchr(*stash, '\n') == 0)
+	buffer = malloc(sizeof(char) * BUFFER_SIZE);
+	if (!buffer)
+		return ;
+	while (ft_strchr(*stash, '\n') == -1)
 	{
 		bytes_readed = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_readed <= 0)
-			break ;
+		{
+			free(buffer);
+			return ;
+		}
+		buffer[bytes_readed] = '\0';
 		temp_stash = ft_strjoin(*stash, buffer);
 		free(*stash);
 		*stash = temp_stash;
 	}
+	free(buffer);
 }
 
 void	clean_stash(char *stash)
@@ -43,40 +51,35 @@ void	clean_stash(char *stash)
 	}
 }
 
+char	*malloc_stash(char *stash)
+{
+	stash = malloc(sizeof(char) * BUFFER_SIZE);
+	if (!stash)
+		return (NULL);
+	stash[0] = '\0';
+	return (stash);
+}
+
 char	*get_next_line(int fd)
 {
 	static char	*stash;
 	char		*line;
-	char		buffer[BUFFER_SIZE];
 	int			len;
 
 	if (BUFFER_SIZE <= 0 || read(fd, 0, 0) <= 0)
 		return (NULL);
 	if (stash == NULL)
 	{
-		stash = malloc(sizeof(char) * BUFFER_SIZE);
-		if (!stash)
-			return (NULL);
+		stash = malloc_stash(stash);
 	}
 	read_to_stash(fd, &stash);
 	len = ft_strchr(stash, '\n');
 	line = malloc(sizeof(char) * len + 2);
 	if (line == NULL)
 		return (NULL);
-	ft_strlcpy(line, stash, len);
+	ft_strlcpy(line, stash, len + 2);
 	clean_stash(stash);
-	if (read(fd, buffer, 0) > 1)
+	if (read(fd, 0, 0) > 1)
 		free(stash);
 	return (line);
-}
-
-int	main(void)
-{
-	int		fd;
-	char	*output;
-
-	fd = open("hello.txt", O_RDONLY);
-	output = get_next_line(fd);
-	while (get_next_line(fd) != NULL)
-		printf("%s", output);
 }
