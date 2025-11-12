@@ -6,7 +6,7 @@
 /*   By: rpinheir <rpinheir@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 11:43:36 by rpinheir          #+#    #+#             */
-/*   Updated: 2025/11/12 15:45:55 by rpinheir         ###   ########.fr       */
+/*   Updated: 2025/11/12 16:23:42 by rpinheir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	read_to_stash(int fd, char **stash)
 			free(buffer);
 			return ;
 		}
-		buffer[bytes_readed] = '\0';
 		temp_stash = ft_strjoin(*stash, buffer);
 		free(*stash);
 		*stash = temp_stash;
@@ -54,7 +53,7 @@ void	clean_stash(char *stash)
 
 char	*malloc_stash(char *stash)
 {
-	stash = malloc(sizeof(char) * BUFFER_SIZE);
+	stash = malloc(sizeof(char) * 1);
 	if (!stash)
 		return (NULL);
 	stash[0] = '\0';
@@ -78,6 +77,7 @@ char	*get_next_line(int fd)
 	if (len == -1)
 	{
 		stash = NULL;
+		free(stash);
 		return (NULL);
 	}
 	line = malloc(sizeof(char) * len + 2);
@@ -87,7 +87,7 @@ char	*get_next_line(int fd)
 	clean_stash(stash);
 	return (line);
 }
-
+/**
 int	main(void)
 {
 	int		fd;
@@ -102,3 +102,4 @@ int	main(void)
 		output = get_next_line(fd);
 	}
 }
+*/
