@@ -6,7 +6,7 @@
 /*   By: rpinheir <rpinheir@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 11:27:32 by rpinheir          #+#    #+#             */
-/*   Updated: 2025/11/12 11:21:41 by rpinheir         ###   ########.fr       */
+/*   Updated: 2025/11/12 12:23:32 by rpinheir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,30 +58,38 @@ int	ft_strlcpy(char *dst, const char *src, int size)
 	return (len);
 }
 
+char	*ft_strdup(const char *s)
+{
+	char	*ptr;
+	size_t	len;
+
+	len = ft_strlen(s) + 1;
+	ptr = malloc(len);
+	if (!ptr)
+		return (NULL);
+	ft_strlcpy(ptr, s, len);
+	return (ptr);
+}
+
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*ptr;
 	int		len1;
 	int		len2;
-	int		i;
-	int		j;
 
-	if (!s1 || !s2)
-		return ((void *)0);
+	if (s1 == NULL)
+		return (ft_strdup(s2));
+	if (s2 == NULL)
+		return (ft_strdup(s1));
+	if (s1 == NULL && s2 == NULL)
+		return (NULL);
 	len1 = ft_strlen(s1);
 	len2 = ft_strlen(s2);
 	ptr = malloc(len1 + len2 + 1);
 	if (!ptr)
 		return ((void *)0);
-	i = 0;
-	while (i < len1)
-	{
-		ptr[i] = s1[i];
-		i++;
-	}
-	j = 0;
-	while (j < len2)
-		ptr[i++] = s2[j++];
-	ptr[i] = '\0';
+	ft_strlcpy(&ptr[0], s1, len1);
+	ft_strlcpy(&ptr[len1], s2, len2);
+	ptr[len1 + len2] = '\0';
 	return (ptr);
 }
