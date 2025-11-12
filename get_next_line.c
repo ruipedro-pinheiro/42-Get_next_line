@@ -6,7 +6,7 @@
 /*   By: rpinheir <rpinheir@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 11:43:36 by rpinheir          #+#    #+#             */
-/*   Updated: 2025/11/12 13:30:25 by rpinheir         ###   ########.fr       */
+/*   Updated: 2025/11/12 13:32:59 by rpinheir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,10 @@ void	clean_stash(char *stash)
 
 	len = ft_strchr(stash, '\n');
 	i = 0;
-	while (i != len)
+	while (i < len)
 	{
-		stash[i] = stash[len + 1];
+		stash[i] = stash[len];
+		i++;
 	}
 }
 
