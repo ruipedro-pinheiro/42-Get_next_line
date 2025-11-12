@@ -6,7 +6,7 @@
 /*   By: rpinheir <rpinheir@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 11:46:32 by rpinheir          #+#    #+#             */
-/*   Updated: 2025/11/12 16:44:08 by rpinheir         ###   ########.fr       */
+/*   Updated: 2025/11/12 21:50:30 by rpinheir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # endif
 
 char	*get_next_line(int fd);
+char	*extract_line(char **stash, int len);
 char	*ft_strdup(const char *s);
 char	*ft_strjoin(char const *s1, char const *s2);
 int		ft_strlen(const char *s);

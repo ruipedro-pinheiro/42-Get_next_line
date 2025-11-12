@@ -6,12 +6,17 @@
 /*   By: rpinheir <rpinheir@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 11:27:32 by rpinheir          #+#    #+#             */
-/*   Updated: 2025/11/12 17:08:50 by rpinheir         ###   ########.fr       */
+/*   Updated: 2025/11/12 21:41:50 by rpinheir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+/*
+** Calcule la longueur d'une string
+** @param s: la string à mesurer
+** @return: le nombre de caractères (sans compter le '\0')
+*/
 int	ft_strlen(const char *s)
 {
 	int	i;
@@ -24,6 +29,13 @@ int	ft_strlen(const char *s)
 	return (i);
 }
 
+/*
+** Cherche un caractère dans une string et retourne sa position
+** @param s: la string à parcourir
+** @param c: le caractère à chercher
+** @return: la position du caractère (ou -1 si non trouvé)
+** Note: Cette version retourne l'INDEX, pas un pointeur comme strchr standard
+*/
 int	ft_strchr(const char *s, int c)
 {
 	int	i;
@@ -40,6 +52,13 @@ int	ft_strchr(const char *s, int c)
 	return (-1);
 }
 
+/*
+** Copie une string dans une autre avec limite de taille
+** @param dst: destination
+** @param src: source à copier
+** @param size: taille maximale (incluant le '\0')
+** @return: la longueur de la string source
+*/
 int	ft_strlcpy(char *dst, const char *src, int size)
 {
 	int	i;
@@ -58,6 +77,11 @@ int	ft_strlcpy(char *dst, const char *src, int size)
 	return (len);
 }
 
+/*
+** Duplique une string (alloue de la mémoire et copie le contenu)
+** @param s: la string à dupliquer
+** @return: un pointeur vers la nouvelle string allouée
+*/
 char	*ft_strdup(const char *s)
 {
 	char	*ptr;
@@ -71,6 +95,13 @@ char	*ft_strdup(const char *s)
 	return (ptr);
 }
 
+/*
+** Concatène deux strings en allouant une nouvelle string
+** @param s1: première string
+** @param s2: deuxième string
+** @return: un pointeur vers la nouvelle string contenant s1+s2
+** Note: Gère les cas NULL pour s1 ou s2
+*/
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*ptr;
@@ -88,8 +119,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	ptr = malloc(len1 + len2 + 1);
 	if (!ptr)
 		return ((void *)0);
-	ft_strlcpy(&ptr[0], s1, len1 + 2);
-	ft_strlcpy(&ptr[len1], s2, len2 + 2);
+	ft_strlcpy(&ptr[0], s1, len1 + 1);	// FIX: était len1 + 2
+	ft_strlcpy(&ptr[len1], s2, len2 + 1);	// FIX: était len2 + 2
 	ptr[len1 + len2] = '\0';
 	return (ptr);
 }
