@@ -6,7 +6,7 @@
 /*   By: rpinheir <rpinheir@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 11:27:32 by rpinheir          #+#    #+#             */
-/*   Updated: 2025/11/12 14:34:23 by rpinheir         ###   ########.fr       */
+/*   Updated: 2025/11/12 15:18:16 by rpinheir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ int	ft_strchr(const char *s, int c)
 		i++;
 	}
 	if ((char)c == '\0')
-		return (-1);
-	return (0);
+		return (i);
+	return (-1);
 }
 
 int	ft_strlcpy(char *dst, const char *src, int size)

@@ -6,7 +6,7 @@
 /*   By: rpinheir <rpinheir@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 11:43:36 by rpinheir          #+#    #+#             */
-/*   Updated: 2025/11/12 14:46:58 by rpinheir         ###   ########.fr       */
+/*   Updated: 2025/11/12 15:18:15 by rpinheir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,10 @@ void	clean_stash(char *stash)
 	i = 0;
 	while (i < len)
 	{
-		stash[i] = stash[len + i];
+		stash[i] = stash[len + 1 + i];
 		i++;
 	}
+	stash[i] = '\0';
 }
 
 char	*malloc_stash(char *stash)
@@ -79,7 +80,5 @@ char	*get_next_line(int fd)
 		return (NULL);
 	ft_strlcpy(line, stash, len + 2);
 	clean_stash(stash);
-	if (read(fd, 0, 0) > 1)
-		free(stash);
 	return (line);
 }
