@@ -6,7 +6,7 @@
 /*   By: rpinheir <rpinheir@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 11:43:36 by rpinheir          #+#    #+#             */
-/*   Updated: 2025/11/12 15:18:15 by rpinheir         ###   ########.fr       */
+/*   Updated: 2025/11/12 15:45:55 by rpinheir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	*get_next_line(int fd)
 	char		*line;
 	int			len;
 
-	if (BUFFER_SIZE <= 0 || read(fd, 0, 0) <= 0)
+	if (BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0 || fd < 0)
 		return (NULL);
 	if (stash == NULL)
 	{
@@ -75,10 +75,30 @@ char	*get_next_line(int fd)
 	}
 	read_to_stash(fd, &stash);
 	len = ft_strchr(stash, '\n');
+	if (len == -1)
+	{
+		stash = NULL;
+		return (NULL);
+	}
 	line = malloc(sizeof(char) * len + 2);
 	if (line == NULL)
 		return (NULL);
 	ft_strlcpy(line, stash, len + 2);
 	clean_stash(stash);
 	return (line);
+}
+
+int	main(void)
+{
+	int		fd;
+	char	*output;
+
+	fd = open("hello.txt", O_RDONLY);
+	output = get_next_line(fd);
+	while (output != NULL)
+	{
+		printf("%s", output);
+		free(output);
+		output = get_next_line(fd);
+	}
 }
