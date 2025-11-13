@@ -6,7 +6,7 @@
 /*   By: rpinheir <rpinheir@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 11:43:36 by rpinheir          #+#    #+#             */
-/*   Updated: 2025/11/13 14:13:12 by rpinheir         ###   ########.fr       */
+/*   Updated: 2025/11/13 14:20:45 by rpinheir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,7 @@ void	read_to_stash(int fd, char **stash)
 	{
 		bytes_readed = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_readed <= 0)
-		{
-			free(buffer);
-			return ;
-		}
+			break ;
 		buffer[bytes_readed] = '\0';
 		temp_stash = ft_strjoin(*stash, buffer);
 		if (!temp_stash)
@@ -96,11 +93,13 @@ char	*extract_line(char **stash, int len)
 		if (!*stash || !(*stash)[0])
 			return (free(*stash), *stash = NULL, NULL);
 		line = ft_strdup(*stash);
+		if (!line)
+			return (NULL);
 		return (free(*stash), *stash = NULL, line);
 	}
 	line = malloc(sizeof(char) * (len + 2));
 	if (line == NULL)
-		return (NULL);
+		return (free(*stash), *stash = NULL, NULL);
 	ft_strlcpy(line, *stash, len + 2);
 	clean_stash(*stash);
 	return (line);
