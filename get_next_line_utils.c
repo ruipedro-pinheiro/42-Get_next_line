@@ -6,7 +6,7 @@
 /*   By: rpinheir <rpinheir@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 11:27:32 by rpinheir          #+#    #+#             */
-/*   Updated: 2025/11/13 13:21:11 by rpinheir         ###   ########.fr       */
+/*   Updated: 2025/11/13 14:00:48 by rpinheir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ int	ft_strlen(const char *s)
 {
 	int	i;
 
-	i = 0;
-	if (s[i] == '\0' || s[i] != '\n')
+	if (!s)
 		return (0);
+	i = 0;
 	while (s[i] != '\0')
 	{
 		i++;
@@ -42,9 +42,9 @@ int	ft_strchr(const char *s, int c)
 {
 	int	i;
 
-	i = 0;
-	if (s[i] == '\0' || s[i] != '\n')
+	if (!s)
 		return (-1);
+	i = 0;
 	while (s[i])
 	{
 		if (s[i] == (char)c)
