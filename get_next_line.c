@@ -27,7 +27,7 @@ void	read_to_stash(int fd, char **stash)
 
 	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
-		return ;
+		return (free(*stash), *stash = NULL, (void)0);
 	while (ft_strchr(*stash, '\n') == -1)
 	{
 		bytes_readed = read(fd, buffer, BUFFER_SIZE);
@@ -36,10 +36,7 @@ void	read_to_stash(int fd, char **stash)
 		buffer[bytes_readed] = '\0';
 		temp_stash = ft_strjoin(*stash, buffer);
 		if (!temp_stash)
-		{
-			free(buffer);
-			return ;
-		}
+			return (free(buffer), free(*stash), *stash = NULL, (void)0);
 		free(*stash);
 		*stash = temp_stash;
 	}
@@ -93,8 +90,6 @@ char	*extract_line(char **stash, int len)
 		if (!*stash || !(*stash)[0])
 			return (free(*stash), *stash = NULL, NULL);
 		line = ft_strdup(*stash);
-		if (!line)
-			return (NULL);
 		return (free(*stash), *stash = NULL, line);
 	}
 	line = malloc(sizeof(char) * (len + 2));
@@ -126,6 +121,8 @@ char	*get_next_line(int fd)
 			return (NULL);
 	}
 	read_to_stash(fd, &stash);
+	if (!stash)
+		return (NULL);
 	len = ft_strchr(stash, '\n');
 	return (extract_line(&stash, len));
 }
