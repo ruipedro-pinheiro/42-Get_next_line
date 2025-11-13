@@ -6,7 +6,7 @@
 /*   By: rpinheir <rpinheir@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 11:27:32 by rpinheir          #+#    #+#             */
-/*   Updated: 2025/11/12 21:41:50 by rpinheir         ###   ########.fr       */
+/*   Updated: 2025/11/13 10:38:54 by rpinheir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,8 +119,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	ptr = malloc(len1 + len2 + 1);
 	if (!ptr)
 		return ((void *)0);
-	ft_strlcpy(&ptr[0], s1, len1 + 1);	// FIX: était len1 + 2
-	ft_strlcpy(&ptr[len1], s2, len2 + 1);	// FIX: était len2 + 2
+	ft_strlcpy(&ptr[0], s1, len1 + 1);
+	ft_strlcpy(&ptr[len1], s2, len2 + 1);
 	ptr[len1 + len2] = '\0';
 	return (ptr);
 }

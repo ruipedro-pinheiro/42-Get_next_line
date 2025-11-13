@@ -6,7 +6,7 @@
 /*   By: rpinheir <rpinheir@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 11:43:36 by rpinheir          #+#    #+#             */
-/*   Updated: 2025/11/12 17:42:24 by rpinheir         ###   ########.fr       */
+/*   Updated: 2025/11/13 09:58:05 by rpinheir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	read_to_stash(int fd, char **stash)
 	int		bytes_readed;
 	char	*temp_stash;
 
-	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));	// FIX: +1 pour '\0'
+	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
 		return ;
 	while (ft_strchr(*stash, '\n') == -1)
@@ -36,7 +36,7 @@ void	read_to_stash(int fd, char **stash)
 			free(buffer);
 			return ;
 		}
-		buffer[bytes_readed] = '\0';	// FIX: ajouté - null-terminate buffer
+		buffer[bytes_readed] = '\0';
 		temp_stash = ft_strjoin(*stash, buffer);
 		free(*stash);
 		*stash = temp_stash;
@@ -58,7 +58,7 @@ void	clean_stash(char *stash)
 
 	len = ft_strchr(stash, '\n');
 	i = 0;
-	while (stash[len + 1 + i])	// FIX: était while (i < len)
+	while (stash[len + 1 + i])
 	{
 		stash[i] = stash[len + 1 + i];
 		i++;
@@ -82,18 +82,7 @@ char	*malloc_stash(char *stash)
 	return (stash);
 }
 
-/*
-** NOUVELLE FONCTION: Extrait une ligne du stash
-** @param stash: pointeur vers le stash contenant les données lues
-** @param len: position du '\n' dans le stash (ou -1 si pas de '\n' = EOF)
-** @return: la ligne extraite (avec '\n' si trouvé) ou NULL si erreur/fin
-** Fonction: Deux cas possibles:
-**   1. len == -1 (pas de '\n'): c'est la dernière ligne du fichier (EOF)
-**      -> retourne tout le stash et le libère
-**   2. len >= 0 (il y a un '\n'): extrait la ligne jusqu'au '\n' inclus
-**      -> retourne la ligne et nettoie le stash en gardant le reste
-*/
-char	*extract_line(char **stash, int len)	// NOUVELLE FONCTION créée
+char	*extract_line(char **stash, int len)
 {
 	char	*line;
 
@@ -112,22 +101,6 @@ char	*extract_line(char **stash, int len)	// NOUVELLE FONCTION créée
 	return (line);
 }
 
-/*
-** FONCTION PRINCIPALE: Lit et retourne la prochaine ligne d'un file descriptor
-** @param fd: file descriptor à lire
-** @return: la prochaine ligne (avec '\n' si présent) ou NULL si fin/erreur
-**
-** LOGIQUE GLOBALE:
-** 1. Le stash (static) persiste entre les appels pour garder les données en trop
-** 2. On lit par blocs de BUFFER_SIZE jusqu'à trouver un '\n'
-** 3. On extrait la ligne jusqu'au '\n' (inclus)
-** 4. On garde le reste dans le stash pour le prochain appel
-**
-** Exemple avec BUFFER_SIZE=5 et fichier "Hello\nWorld\n":
-** - 1er appel: lit "Hello", trouve '\n', retourne "Hello\n", stash=""
-** - 2e appel: lit "World", trouve '\n', retourne "World\n", stash=""
-** - 3e appel: plus rien à lire, retourne NULL
-*/
 char	*get_next_line(int fd)
 {
 	static char	*stash;
@@ -135,7 +108,7 @@ char	*get_next_line(int fd)
 
 	if (BUFFER_SIZE <= 0 || fd < 0)
 		return (NULL);
-	if (read(fd, 0, 0) < 0)	// FIX: meilleure gestion d'erreur
+	if (read(fd, 0, 0) < 0)
 	{
 		if (stash)
 			free(stash);
@@ -150,5 +123,5 @@ char	*get_next_line(int fd)
 	}
 	read_to_stash(fd, &stash);
 	len = ft_strchr(stash, '\n');
-	return (extract_line(&stash, len));	// FIX: utilise fonction extraite
+	return (extract_line(&stash, len));
 }
