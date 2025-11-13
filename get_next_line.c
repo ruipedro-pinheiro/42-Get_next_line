@@ -6,7 +6,7 @@
 /*   By: rpinheir <rpinheir@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 11:43:36 by rpinheir          #+#    #+#             */
-/*   Updated: 2025/11/13 09:58:05 by rpinheir         ###   ########.fr       */
+/*   Updated: 2025/11/13 13:17:29 by rpinheir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void	read_to_stash(int fd, char **stash)
 		}
 		buffer[bytes_readed] = '\0';
 		temp_stash = ft_strjoin(*stash, buffer);
+		if (!temp_stash)
+			break ;
 		free(*stash);
 		*stash = temp_stash;
 	}
@@ -58,6 +60,10 @@ void	clean_stash(char *stash)
 
 	len = ft_strchr(stash, '\n');
 	i = 0;
+	if (len == 1)
+	{
+		stash[i] = stash[i];
+	}
 	while (stash[len + 1 + i])
 	{
 		stash[i] = stash[len + 1 + i];
