@@ -1,0 +1,136 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: test <test@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/14 20:00:00 by test              #+#    #+#             */
+/*   Updated: 2025/11/14 20:00:00 by test             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "get_next_line.h"
+#include <fcntl.h>
+#include <stdio.h>
+
+void	print_line(char *line, int count)
+{
+	if (line)
+	{
+		printf("Line %d: [%s]\n", count, line);
+		free(line);
+	}
+	else
+		printf("NULL\n");
+}
+
+void	test_file(const char *filename, const char *test_name)
+{
+	int		fd;
+	char	*line;
+	int		count;
+
+	printf("\n========== %s ==========\n", test_name);
+	fd = open(filename, O_RDONLY);
+	if (fd < 0)
+	{
+		printf("ERROR: Cannot open %s\n", filename);
+		return ;
+	}
+	count = 0;
+	while (count < 50)
+	{
+		line = get_next_line(fd);
+		if (!line)
+			break ;
+		count++;
+		printf("Line %d: [%s]\n", count, line);
+		free(line);
+	}
+	printf("Total lines: %d\n", count);
+	line = get_next_line(fd);
+	if (line == NULL)
+		printf("OK: Returns NULL after EOF\n");
+	else
+	{
+		printf("ERROR: Non-NULL after EOF\n");
+		free(line);
+	}
+	close(fd);
+}
+
+void	test_invalid_fd(void)
+{
+	char	*line;
+
+	printf("\n========== TEST FD INVALIDES ==========\n");
+	line = get_next_line(-1);
+	if (line == NULL)
+		printf("OK: FD -1 returns NULL\n");
+	else
+	{
+		printf("ERROR: FD -1 returned data\n");
+		free(line);
+	}
+	line = get_next_line(999);
+	if (line == NULL)
+		printf("OK: FD 999 returns NULL\n");
+	else
+	{
+		printf("ERROR: FD 999 returned data\n");
+		free(line);
+	}
+}
+
+void	test_alt_fd(int fd1, int fd2, int iter)
+{
+	char	*line1;
+	char	*line2;
+
+	line1 = get_next_line(fd1);
+	line2 = get_next_line(fd2);
+	printf("FD1 line %d: ", iter);
+	print_line(line1, iter);
+	printf("FD2 line %d: ", iter);
+	print_line(line2, iter);
+}
+
+void	test_multiple_fd(void)
+{
+	int	fd1;
+	int	fd2;
+	int	i;
+
+	printf("\n========== TEST MULTIPLE FD ==========\n");
+	fd1 = open("test.txt", O_RDONLY);
+	fd2 = open("test.txt", O_RDONLY);
+	if (fd1 < 0 || fd2 < 0)
+	{
+		printf("ERROR: Cannot open files\n");
+		return ;
+	}
+	i = 1;
+	while (i <= 5)
+	{
+		test_alt_fd(fd1, fd2, i);
+		i++;
+	}
+	close(fd1);
+	close(fd2);
+}
+
+int	main(void)
+{
+	printf("====================================\n");
+	printf("  GET_NEXT_LINE - STRESS TESTS\n");
+	printf("  BUFFER_SIZE = %d\n", BUFFER_SIZE);
+	printf("====================================\n");
+	test_file("test.txt", "TEST FICHIER NORMAL");
+	test_invalid_fd();
+	test_multiple_fd();
+	printf("\n====================================\n");
+	printf("  TESTS TERMINES\n");
+	printf("====================================\n");
+	return (0);
+}

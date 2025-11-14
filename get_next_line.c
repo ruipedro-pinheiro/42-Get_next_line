@@ -6,7 +6,7 @@
 /*   By: rpinheir <rpinheir@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 11:43:36 by rpinheir          #+#    #+#             */
-/*   Updated: 2025/11/14 19:33:37 by rpinheir         ###   ########.fr       */
+/*   Updated: 2025/11/14 21:00:02 by rpinheir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ void	read_to_stash(int fd, char **stash)
 	while (ft_strchr(*stash, '\n') == -1)
 	{
 		bytes_readed = read(fd, buffer, BUFFER_SIZE);
-		if (bytes_readed <= 0)
+		if (bytes_readed == -1)
+			return (free(buffer), free(*stash), *stash = NULL, (void)0);
+		if (bytes_readed == 0)
 			break ;
 		buffer[bytes_readed] = '\0';
 		temp_stash = ft_strjoin(*stash, buffer);

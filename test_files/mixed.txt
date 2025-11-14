@@ -1,0 +1,5 @@
+Short
+A very very very very very very very very very very very very very very very very very long line
+x
+Another quite long line that should test the buffer handling properly
+End
