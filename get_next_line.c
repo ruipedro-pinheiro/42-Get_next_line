@@ -6,7 +6,7 @@
 /*   By: rpinheir <rpinheir@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 11:43:36 by rpinheir          #+#    #+#             */
-/*   Updated: 2025/11/13 14:20:45 by rpinheir         ###   ########.fr       */
+/*   Updated: 2025/11/14 19:33:37 by rpinheir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,13 +107,6 @@ char	*get_next_line(int fd)
 
 	if (BUFFER_SIZE <= 0 || fd < 0)
 		return (NULL);
-	if (read(fd, 0, 0) < 0)
-	{
-		if (stash)
-			free(stash);
-		stash = NULL;
-		return (NULL);
-	}
 	if (stash == NULL)
 	{
 		stash = malloc_stash(stash);
